@@ -5,14 +5,18 @@ const pool = require("../db");
 //function to get the user prefernces
 async function getUserPreferences(userId) {
     const query = 'SELECT genre_preferences FROM users WHERE users_id = $1';
+    
     const result = await pool.query(query, [userId]);
+    
     return result.rows[0].genre_preferences;
 }
 
 // Function to get movies matching user genre preferences
-async function getRecommendedMovies(genrePreferences) {
+async function getRecommendedMovies1(genrePreferences) {
+    console.log("||||");
     const query = 'SELECT * FROM movies WHERE genre = ANY($1)';
     const result = await pool.query(query, [genrePreferences]);
+    console.log("}}}}",result);
     return result.rows;
 }
 
@@ -189,6 +193,7 @@ async function getRecommendedMoviesCollab(targetUserId) {
 
 module.exports = {
     getUserPreferences,
+    getRecommendedMovies1,
     getRecommendedMovies,
     getRatingsByUserId,
     getAllUserRatingsExceptUserId,

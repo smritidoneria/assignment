@@ -1,6 +1,6 @@
 const express = require('express');
 const pool=require("../db")
-const { getUserPreferences, getRecommendedMovies ,getRecommendedMoviesCollab} = require("./helper");
+const { getRecommendedMoviesCollab,getUserPreferences,getRecommendedMovies1,getRecommendedMovies} = require("./helper");
 
 
 // to store the rating of the movies
@@ -65,7 +65,7 @@ exports.preferences1 = async (req, res, next) => {
         //helper function yo get user prefrences by genres
         const userPreferences = await getUserPreferences(userId);
         // helper function to get the movie
-        const recommendedMovies = await getRecommendedMovies(userPreferences);
+        const recommendedMovies = await getRecommendedMovies1(userPreferences);
     
         res.status(200).json({
           success: true,
@@ -80,6 +80,8 @@ exports.preferences1 = async (req, res, next) => {
         });
       }
 }
+
+
 
 
   
