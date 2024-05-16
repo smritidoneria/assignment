@@ -1,3 +1,5 @@
+
+/* creating database named assignment */
 CREATE DATABASE assignment;
 
 CREATE TABLE users(

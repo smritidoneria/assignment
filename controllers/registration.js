@@ -1,11 +1,12 @@
 const express = require('express');
 const pool=require("../db")
 
-exports.register = async (req, res, next) => {
+
+
+//route for the registration of the user
+exports.register = async (req, res) => {
     try {
         const { username, genre_preferences } = req.body;
-        
-       
         const result = await pool.query('INSERT INTO users (username, genre_preferences) VALUES ($1, $2) RETURNING *', [username, genre_preferences]);
     
         res.status(201).json({
@@ -22,3 +23,6 @@ exports.register = async (req, res, next) => {
         });
       }
 }
+
+
+
