@@ -1,12 +1,14 @@
 const express = require('express');
 const pool=require("../db");
+const path = require('path');
 const fs = require('fs').promises;
 
 
 // function to registering movie in the database
 exports.moviereg = async (req, res, next) => {
     try{
-        const data = await fs.readFile('movies.json', 'utf8');
+      const moviesPath = path.join(__dirname, 'movies.json');
+      const data = await fs.readFile(moviesPath, 'utf8');
         const movies = JSON.parse(data);
         const insertPromises = movies.map(async (movie) => {
             const { title, genre, release_year } = movie;
