@@ -115,7 +115,7 @@ async function findSimilarUsers(targetUserId) {
                 similarUsers.push({ userId: user.userId, unratedMovies });
             }
         }
-
+        console.log("pppp",similarUsers);
         return similarUsers;
     } catch (error) {
      
@@ -174,7 +174,9 @@ async function getAllUserRatingsExceptUserId(userId) {
 // function to retrieve the recommended movies
 async function getRecommendedMoviesCollab(targetUserId) {
     try {
+        console.log("|||",targetUserId);
         const similarUsers = await findSimilarUsers(targetUserId);
+        console.log("||||",similarUsers);
         
         const unratedMovies = [];
         for (const user of similarUsers) {
@@ -182,6 +184,7 @@ async function getRecommendedMoviesCollab(targetUserId) {
         }
 
        const uniqueUnratedMovies = [...new Set(unratedMovies)]; 
+       console.log(uniqueUnratedMovies)
         return uniqueUnratedMovies;
     } catch (error) {
         console.error('Error getting recommended movies:', error);

@@ -16,7 +16,7 @@ CREATE TABLE movies (
 );
 
 CREATE TABLE user_ratings (
-    user_id INTEGER REFERENCES users(id),
+    user_id INTEGER REFERENCES users(users_id),
     movie_id INTEGER REFERENCES movies(id),
     rating INTEGER,
     PRIMARY KEY (user_id, movie_id)

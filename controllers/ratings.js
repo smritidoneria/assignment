@@ -118,18 +118,36 @@ exports.preferences2 = async (req, res, next) => {
 exports.preferences3 = async (req, res, next) => {
     try {
         const userId = req.params.userId;
+        console.log("////",userId)
         //helper function 
         const recommendedMovies = await getRecommendedMoviesCollab(userId);
-        console.log(recommendedMovies)
+       
+       
+
+        //handling edge case
+        if(recommendedMovies.length === 0){
+          const query = `
+        SELECT DISTINCT ON (m.id) m.id, m.title, m.genre, m.release_year
+        FROM movies m
+        INNER JOIN user_ratings ur ON m.id = ur.movie_id
+        ORDER BY m.id, ur.rating DESC
+        LIMIT 10;
+        `;
+        const { rows} = await pool.query(query);
+          
+
+        res.status(200).json({ success: true, recommendations: rows, message:"handling edge case by popularity filtering" });
+        }else{
         const placeholders = recommendedMovies.map((id, index) => `$${index + 1}`).join(',');
         const query = `SELECT * FROM movies WHERE id IN (${placeholders})`;
 
         const { rows } = await pool.query(query, recommendedMovies);
-
         res.status(200).json({
           success: true,
           recommendations: rows,
         });
+        }
+        
       } catch (error) {
         console.error('Error generating recommendations:', error);
         res.status(500).json({

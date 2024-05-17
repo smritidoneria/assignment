@@ -30,3 +30,18 @@ exports.moviereg = async (req, res, next) => {
         });
       }
 }
+
+
+exports.getmovie = async (req, res, next) => {
+  try{
+    const result = await pool.query('SELECT * FROM movies');
+    res.json(result.rows);
+  }catch(error){
+    console.error('Error getting movies:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to get movies',
+      error: error.message,
+    });
+  }
+}
